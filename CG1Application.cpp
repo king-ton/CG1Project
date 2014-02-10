@@ -1,6 +1,3 @@
-// Welche Übung soll ausgeführt werden?
-#define PROJECT
-
 //---------------------------------------------------------------------------
 // INCLUDES
 //
@@ -58,13 +55,13 @@ CGContext *ourContext;
 
 Player player1 = { 6, 23, 0 };
 Player player2 = { 6, 23, 0 };
-Ball ball = {0, 0, 0, 0}
+Ball ball = { 0, 0, 0, 0 };
 
 
 //---------------------------------------------------------------------------
 // VERTEX PROGRAMME
 //---------------------------------------------------------------------------
-#if defined(U1) || defined(U2) || defined(U3_1) || defined(U3_2) || defined(U3_3) || defined(U4) || defined(U5) || defined(U6) || defined(U6_4) || defined(HA1)
+
 //---------------------------------------------------------------------------
 // generic "passthorugh" vertex program
 void passthroughVertexProgram(	const CGVertexAttributes& in,
@@ -76,13 +73,11 @@ void passthroughVertexProgram(	const CGVertexAttributes& in,
 	out.varyings[CG_COLOR_VARYING] = in.attributes[CG_COLOR_ATTRIBUTE];
 	out.varyings[CG_TEXCOORD_VARYING] = in.attributes[CG_TEXCOORD_ATTRIBUTE];
 }
-#endif
 
 //---------------------------------------------------------------------------
 // Übung 07 - Aufgabe 2b  |  Vertex-Programm erstellt, Transformation der
 //							 Vertex-Position mithilfe der Projektions-Matrix
 //---------------------------------------------------------------------------
-#if defined(U7)
 void projectionVertexProgram(	const CGVertexAttributes& in,
 								CGVertexVaryings& out,
 								const CGUniformData& uniforms)
@@ -93,14 +88,12 @@ void projectionVertexProgram(	const CGVertexAttributes& in,
 	out.varyings[CG_COLOR_VARYING] = in.attributes[CG_COLOR_ATTRIBUTE];
 	out.varyings[CG_TEXCOORD_VARYING] = in.attributes[CG_TEXCOORD_ATTRIBUTE];
 }
-#endif
 
 //---------------------------------------------------------------------------
 // Übung 08 - Aufgabe 2a  |  Vertex-Programm erstellt, Transformation der
 //						  |	 Vertex-Position mithilfe der ModelView-Matrix
 //						  |  und der Projections-Matrix
 //---------------------------------------------------------------------------
-#if defined(U8) || defined(U12) || defined(HA3)
 void modelViewProjectionVertexProgram(const CGVertexAttributes& in,
 	CGVertexVaryings& out,
 	const CGUniformData& uniforms)
@@ -111,14 +104,12 @@ void modelViewProjectionVertexProgram(const CGVertexAttributes& in,
 	out.varyings[CG_COLOR_VARYING] = in.attributes[CG_COLOR_ATTRIBUTE];
 	out.varyings[CG_TEXCOORD_VARYING] = in.attributes[CG_TEXCOORD_ATTRIBUTE];
 }
-#endif
 
 //---------------------------------------------------------------------------
 // Übung 09 - Aufgabe 2   |  Emmisiver, ambienter und diffuser Anteil
 //						  |  implementiert
 // Übung 09 - Aufgabe 3   |  Spekularer Anteil implementiert
 //---------------------------------------------------------------------------
-#if defined(U9) || defined(U10) || defined(U12)
 void perVertexLighingVertexProgram(	const CGVertexAttributes& in,
 									CGVertexVaryings& out,
 									const CGUniformData& uniforms)
@@ -180,12 +171,10 @@ void perVertexLighingVertexProgram(	const CGVertexAttributes& in,
 	// Transform from Eye Space into Clip Space.
 	vPos = uniforms.projectionMatrix * vPos;
 }
-#endif
 
 //---------------------------------------------------------------------------
 // Übung 10 - Aufgabe 2   |  Funktion erstellt
 //---------------------------------------------------------------------------
-#if defined(U10) || defined(U11) || defined(U12) || defined(HA4)
 void perPixelLighingVertexProgram(	const CGVertexAttributes& in,
 									CGVertexVaryings& out,
 									const CGUniformData& uniforms)
@@ -214,12 +203,11 @@ void perPixelLighingVertexProgram(	const CGVertexAttributes& in,
 	// Transform from Eye Space into Clip Space.
 	vPos = uniforms.projectionMatrix * vPEs;
 }
-#endif
 
 //---------------------------------------------------------------------------
 // FRAGMENT PROGRAMME
 //---------------------------------------------------------------------------
-#if defined(U1) || defined(U2) || defined(U3_1) || defined(U3_2) || defined(U3_3) || defined(U4) || defined(U5) || defined(U6) || defined(U6_4) || defined(U7) || defined(U8) || defined(U9) || defined(U10) || defined(U12) || defined(HA1) || defined(HA3)
+
 //---------------------------------------------------------------------------
 // generic "passthorugh" fragment program
 void passthroughFragmentProgram(const CGFragmentData& in,
@@ -228,13 +216,11 @@ void passthroughFragmentProgram(const CGFragmentData& in,
 {
 	out = in.varyings[CG_COLOR_VARYING];
 }
-#endif
 
 //---------------------------------------------------------------------------
 // Übung 10 - Aufgabe 2   |  Funktion implementiert
 // Übung 11 - Aufgabe 2e  |  Textur-Eigenschaften werden berücksichtigt
 //---------------------------------------------------------------------------
-#if defined(U10) || defined(U11) || defined(U12) || defined(HA4)
 void perPixelLighingFragmentProgram(const CGFragmentData& in,
 	CGVec4& out,
 	const CGUniformData& uniforms)
@@ -299,12 +285,10 @@ void perPixelLighingFragmentProgram(const CGFragmentData& in,
 	clr = CGMath::clamp(clr, 0, 1);
 	out = clr;
 }
-#endif
 
 //---------------------------------------------------------------------------
 // Hausaufgabe 3 - Aufgabe 1.2  |  Funktion erstellt
 //---------------------------------------------------------------------------
-#if defined(HA3)
 void normalVertexProgram(	const CGVertexAttributes& in,
 							CGVertexVaryings& out,
 							const CGUniformData& uniforms)
@@ -325,7 +309,6 @@ void normalVertexProgram(	const CGVertexAttributes& in,
 	out.varyings[CG_COLOR_VARYING][B] = 0.5f * out.varyings[CG_NORMAL_VARYING][Z] + 0.5f;
 	out.varyings[CG_COLOR_VARYING][A] = 1.0f;
 }
-#endif
 
 //---------------------------------------------------------------------------
 // Erstellt die View-Matrix
@@ -334,7 +317,6 @@ void normalVertexProgram(	const CGVertexAttributes& in,
 // Übung 08 - Aufgabe 4a  |  Funktion implementiert
 // Übung 09 - Aufgabe 1   |  Refaktorisierung 
 //---------------------------------------------------------------------------
-#if defined(U8) || defined(U9) || defined(U10) || defined(U11) || defined(HA3) || defined(HA4)
 CGMatrix4x4 cguLookAt(	float eyeX,		float eyeY,		float eyeZ,
 	float centerX,	float centerY,	float centerZ,
 	float upX,		float upY,		float upZ)
@@ -360,12 +342,10 @@ CGMatrix4x4 cguLookAt(	float eyeX,		float eyeY,		float eyeZ,
 	V = V * CGMatrix4x4::getTranslationMatrix((-1)*eyeX, (-1)*eyeY, (-1)*eyeZ);
 	return V;
 }
-#endif
 
 //---------------------------------------------------------------------------
 // Hausaufgabe 3 - Aufgabe 1.2  |  Funktion erstellt
 //---------------------------------------------------------------------------
-#if defined(U11) || defined(U12) || defined(HA3) || defined(HA4)
 void renderQuadric(CGQuadric &quadric)
 {
 	ourContext->cgVertexAttribPointer(CG_POSITION_ATTRIBUTE, quadric.getPositionArray());
@@ -378,7 +358,6 @@ void renderQuadric(CGQuadric &quadric)
 	ourContext->cgVertexAttribPointer(CG_COLOR_ATTRIBUTE, NULL);
 	ourContext->cgVertexAttribPointer(CG_TEXCOORD_ATTRIBUTE, NULL);
 }
-#endif
 
 void drawFrame()
 {
@@ -389,4 +368,22 @@ void drawFrame()
 	ourContext->cgVertexAttribPointer(CG_COLOR_ATTRIBUTE, color);
 
 	ourContext->cgDrawArrays(CG_LINES, 0, 2 * 4);
+}
+
+void programStep()
+{
+	drawFrame();
+}
+
+int main(int argc, char** argv)
+{
+	srand(time(0));           //init random seed
+
+	CG1Helper::initApplication(ourContext, FRAME_WIDTH, FRAME_HEIGHT, FRAME_SCALE);
+
+	CG1Helper::setProgramStep(programStep);
+
+	CG1Helper::runApplication();
+
+	return 0;
 }
