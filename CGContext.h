@@ -6,6 +6,7 @@
 #include "CGProgramInterface.h"
 #include "CGMatrix.h"
 #include "CGTexture.h"
+#include "CGMath.h"
 
 #include <math.h>
 #include <string.h>
@@ -51,7 +52,7 @@ private:
 	/// Internal state: capabilities.
 	struct
 	{
-		bool blend, depthTest, cullFace, useBresenham;
+		bool blend, depthTest, cullFace, useBresenham, useMaterialColor;
 	} m_capabilities;
 
 	/// Internal state: viewport
@@ -67,10 +68,6 @@ private:
 
 	/// Internal state: uniform variables.
 	CGUniformData m_uniforms;
-
-	/// Internal state: shader programs
-	CGVertexProgram m_vertexProgram;
-	CGFragmentProgram m_fragmentProgram;
 
 	// Methods.
 public:
@@ -100,9 +97,6 @@ public:
 
 	/// Sets polygon mode, only supports CG_LINE and CG_FILL for BOTH faces.
 	void cgPolygonMode(CGenum mode);
-
-	/// Set the shader programs.
-	void cgUseProgram(CGVertexProgram vertexProgram, CGFragmentProgram fragmentProgram);
 
 	/// Set uniform int variable.
 	void cgUniform1i(int location, int value);

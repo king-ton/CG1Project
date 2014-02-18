@@ -21,10 +21,11 @@ CGContext::CGContext(int width, int height)
 
 	m_pipelineFragmentsCount = 0;
 
-	m_capabilities.blend         = false;
-	m_capabilities.depthTest     = false;
-	m_capabilities.cullFace      = false;
-	m_capabilities.useBresenham  = false;
+	m_capabilities.blend			= false;
+	m_capabilities.depthTest		= false;
+	m_capabilities.cullFace			= false;
+	m_capabilities.useBresenham		= false;
+	m_capabilities.useMaterialColor = false;
 
 	cgViewport(0,0,width,height);
 
@@ -35,9 +36,6 @@ CGContext::CGContext(int width, int height)
 	m_textures.texturePoolSize = 0;
 	for (int i=0; i<CG_MAX_TEXTURE_UNITS; i++)
 		m_textures.textureUnits[i]=-1;
-
-	m_vertexProgram = NULL;
-	m_fragmentProgram = NULL;
 }
 
 //---------------------------------------------------------------------------
@@ -128,20 +126,22 @@ void CGContext::cgDrawArrays(CGenum mode, int first, int count)
 void CGContext::cgEnable(CGenum cap)
 {
 	switch(cap) {
-		case CG_CULL_FACE:      m_capabilities.cullFace     = true; break;
-		case CG_DEPTH_TEST:     m_capabilities.depthTest    = true; break;
-		case CG_BLEND:          m_capabilities.blend        = true; break;
-		case CG_USE_BRESENHAM:  m_capabilities.useBresenham = true; break;
+		case CG_CULL_FACE:			m_capabilities.cullFace			= true; break;
+		case CG_DEPTH_TEST:			m_capabilities.depthTest		= true; break;
+		case CG_BLEND:				m_capabilities.blend			= true; break;
+		case CG_USE_BRESENHAM:		m_capabilities.useBresenham		= true; break;
+		case CG_USE_MATERIAL_COLOR:	m_capabilities.useMaterialColor = true; break;
 	}
 }
 //---------------------------------------------------------------------------
 void CGContext::cgDisable(CGenum cap)
 {
 	switch(cap) {
-		case CG_CULL_FACE:      m_capabilities.cullFace     = false; break;
-		case CG_DEPTH_TEST:     m_capabilities.depthTest    = false; break;
-		case CG_BLEND:          m_capabilities.blend        = false; break;
-		case CG_USE_BRESENHAM:  m_capabilities.useBresenham = false; break;
+		case CG_CULL_FACE:			m_capabilities.cullFace			= false; break;
+		case CG_DEPTH_TEST:			m_capabilities.depthTest		= false; break;
+		case CG_BLEND:				m_capabilities.blend			= false; break;
+		case CG_USE_BRESENHAM:		m_capabilities.useBresenham		= false; break;
+		case CG_USE_MATERIAL_COLOR:	m_capabilities.useMaterialColor = false; break;
 	}
 }
 //---------------------------------------------------------------------------
@@ -150,12 +150,7 @@ void CGContext::cgPolygonMode(CGenum mode)
 	if (mode == CG_FILL || mode == CG_LINE)
 		m_polygonMode=mode;
 }
-//---------------------------------------------------------------------------
-void CGContext::cgUseProgram(CGVertexProgram vertexProgram, CGFragmentProgram fragmentProgram)
-{
-	m_vertexProgram = vertexProgram;
-	m_fragmentProgram = fragmentProgram;
-}
+
 //---------------------------------------------------------------------------
 // UNIFORM MODIFIERS
 //---------------------------------------------------------------------------
@@ -246,10 +241,6 @@ bool CGContext::m_cgValidateState()
 {
 	// Have vertex positions?
 	if(!m_pVertexAttributePointer[CG_POSITION_ATTRIBUTE])
-		return false;
-
-	// Have valid shader programs?
-	if(!m_vertexProgram || !m_fragmentProgram)
 		return false;
 
 	// Prepare texture sampler.
