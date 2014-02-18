@@ -36,6 +36,11 @@ void CGContext::m_cgPullVertex(int vertexIndex)
 		v.attributes[CG_COLOR_ATTRIBUTE].set(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
+	if (m_capabilities.useMaterialColor) {
+		m_uniforms.materialAmbient = v.attributes[CG_COLOR_ATTRIBUTE];
+		m_uniforms.materialDiffuse = v.attributes[CG_COLOR_ATTRIBUTE];
+	}
+
 	if(m_pVertexAttributePointer[CG_TEXCOORD_ATTRIBUTE]) {
 		const float *tex=m_pVertexAttributePointer[CG_TEXCOORD_ATTRIBUTE]+2*vertexIndex;
 		v.attributes[CG_TEXCOORD_ATTRIBUTE].set(tex[0], tex[1], 0.0f, 1.0f);
@@ -56,13 +61,41 @@ void CGContext::m_cgVertexPipeline()
 	// the primitive processing because new vertices might have been
 	// created after clipping.
 }
+
+//---------------------------------------------------------------------------
+// Transformation der Vertices vom Object Space über Eye Space in Clip Space
+//
+// Übung 10 - Aufgabe 2   |  Funktion erstellt
 //---------------------------------------------------------------------------
 void CGContext::m_cgVertexProgram()
 {
-	// Run programmable vertex processing.
-	m_vertexProgram(m_pipelineVertexAttributes[m_pipelineVerticesCount-1], 
-					m_pipelineVertexVaryings[m_pipelineVerticesCount-1], 
-					m_uniforms);
+	const CGVertexAttributes& in = m_pipelineVertexAttributes[m_pipelineVerticesCount - 1];
+	CGVertexVaryings& out = m_pipelineVertexVaryings[m_pipelineVerticesCount - 1];
+	const CGUniformData& uniforms = m_uniforms;
+
+	// Get hold of all vertex attributes.
+	CGVec4 aPos = in.attributes[CG_POSITION_ATTRIBUTE];
+	CGVec4 aNrm = in.attributes[CG_NORMAL_ATTRIBUTE];
+	CGVec4 aClr = in.attributes[CG_COLOR_ATTRIBUTE];
+	CGVec4 aTex = in.attributes[CG_TEXCOORD_ATTRIBUTE];
+
+	// Get hold of all vertex varyings.
+	CGVec4 &vPos = out.varyings[CG_POSITION_VARYING];
+	CGVec4 &vNrm = out.varyings[CG_NORMAL_VARYING];
+	CGVec4 &vClr = out.varyings[CG_COLOR_VARYING];
+	CGVec4 &vTex = out.varyings[CG_TEXCOORD_VARYING];
+	CGVec4 &vPEs = out.varyings[CG_POSITION_EYESPACE_VARYING];
+
+	// Default program copies all attributes into all varyings used:
+	vPos = aPos; vNrm = aNrm; vClr = aClr; vTex = aTex;
+
+	// Transform from Object Space into Eye Space.
+	vPEs = uniforms.modelviewMatrix * aPos;
+	vNrm = uniforms.normalMatrix* vNrm;
+	CGMath::normalize(vNrm);
+
+	// Transform from Eye Space into Clip Space.
+	vPos = uniforms.projectionMatrix * vPEs;
 }
 //---------------------------------------------------------------------------
 void CGContext::m_cgPrimitiveProcessing()
