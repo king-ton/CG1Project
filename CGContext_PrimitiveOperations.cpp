@@ -47,17 +47,19 @@ bool CGContext::m_cgBFCullTriangle(CGVec4 &vertex0Position,
 	CGVec4 &vertex1Position,
 	CGVec4 &vertex2Position)
 {
-	float ax = vertex0Position.elements[0];
-	float ay = vertex0Position.elements[1];
-	float bx = vertex1Position.elements[0];
-	float by = vertex1Position.elements[1];
-	float cx = vertex2Position.elements[0];
-	float cy = vertex2Position.elements[1];
+	if (m_capabilities.cullFace == true) {
+		float ax = vertex0Position.elements[0];
+		float ay = vertex0Position.elements[1];
+		float bx = vertex1Position.elements[0];
+		float by = vertex1Position.elements[1];
+		float cx = vertex2Position.elements[0];
+		float cy = vertex2Position.elements[1];
 
-	if (((bx - ax) * (cy - ay) - (by - ay) * (cx - ax)) >= 0)
-		return false;
-	else
-		return true;
+		if (((bx - ax) * (cy - ay) - (by - ay) * (cx - ax)) >= 0)
+			return false;
+		else
+			return true;
+	}
 }
 //---------------------------------------------------------------------------
 // CGCONTEXT RASTERIZERS

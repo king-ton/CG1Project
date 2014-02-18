@@ -53,26 +53,27 @@ struct CGVec2i
 typedef unsigned int CGenum;
 
 /// Primitive types.
-#define CG_POINTS         0x0000
-#define CG_LINES          0x0001
-#define CG_LINE_LOOP      0x0002
-#define CG_LINE_STRIP     0x0003
-#define CG_TRIANGLES      0x0004
-#define CG_TRIANGLE_STRIP 0x0005
-#define CG_TRIANGLE_FAN   0x0006
-#define CG_QUADS          0x0007
-#define CG_QUAD_STRIP     0x0008
-#define CG_POLYGON        0x0009
+#define CG_POINTS				0x0000
+#define CG_LINES				0x0001
+#define CG_LINE_LOOP			0x0002
+#define CG_LINE_STRIP			0x0003
+#define CG_TRIANGLES			0x0004
+#define CG_TRIANGLE_STRIP		0x0005
+#define CG_TRIANGLE_FAN			0x0006
+#define CG_QUADS				0x0007
+#define CG_QUAD_STRIP			0x0008
+#define CG_POLYGON				0x0009
 
 /// Polygon modes
-#define CG_LINE           0x1B01
-#define CG_FILL           0x1B02
+#define CG_LINE					0x1B01
+#define CG_FILL					0x1B02
 
 /// Capabilities.
-#define CG_CULL_FACE      0x0B44
-#define CG_DEPTH_TEST     0x0B71
-#define CG_BLEND          0x0BE2
-#define CG_USE_BRESENHAM  0x0B60 // ! GL_FOG !
+#define CG_CULL_FACE			0x0B44
+#define CG_DEPTH_TEST			0x0B71
+#define CG_BLEND				0x0BE2
+#define CG_USE_BRESENHAM		0x0B60 // ! GL_FOG !
+#define CG_USE_MATERIAL_COLOR	0x0B61
 
 /// Bit values for cgClear
 #define CG_COLOR_BUFFER_BIT 0x00004000
