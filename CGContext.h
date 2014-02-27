@@ -52,7 +52,7 @@ private:
 	/// Internal state: capabilities.
 	struct
 	{
-		bool blend, depthTest, cullFace, useBresenham, useMaterialColor;
+		bool blend, depthTest, cullFace, useBresenham;
 	} m_capabilities;
 
 	/// Internal state: viewport

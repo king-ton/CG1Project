@@ -73,7 +73,6 @@ typedef unsigned int CGenum;
 #define CG_DEPTH_TEST			0x0B71
 #define CG_BLEND				0x0BE2
 #define CG_USE_BRESENHAM		0x0B60 // ! GL_FOG !
-#define CG_USE_MATERIAL_COLOR	0x0B61
 
 /// Bit values for cgClear
 #define CG_COLOR_BUFFER_BIT 0x00004000

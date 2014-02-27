@@ -25,7 +25,6 @@ CGContext::CGContext(int width, int height)
 	m_capabilities.depthTest		= false;
 	m_capabilities.cullFace			= false;
 	m_capabilities.useBresenham		= false;
-	m_capabilities.useMaterialColor = false;
 
 	cgViewport(0,0,width,height);
 
@@ -130,7 +129,6 @@ void CGContext::cgEnable(CGenum cap)
 		case CG_DEPTH_TEST:			m_capabilities.depthTest		= true; break;
 		case CG_BLEND:				m_capabilities.blend			= true; break;
 		case CG_USE_BRESENHAM:		m_capabilities.useBresenham		= true; break;
-		case CG_USE_MATERIAL_COLOR:	m_capabilities.useMaterialColor = true; break;
 	}
 }
 //---------------------------------------------------------------------------
@@ -141,7 +139,6 @@ void CGContext::cgDisable(CGenum cap)
 		case CG_DEPTH_TEST:			m_capabilities.depthTest		= false; break;
 		case CG_BLEND:				m_capabilities.blend			= false; break;
 		case CG_USE_BRESENHAM:		m_capabilities.useBresenham		= false; break;
-		case CG_USE_MATERIAL_COLOR:	m_capabilities.useMaterialColor = false; break;
 	}
 }
 //---------------------------------------------------------------------------

@@ -95,34 +95,41 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CG.h" />
-    <ClInclude Include="CG1Application_renderSphere.h" />
     <ClInclude Include="CG1Helper.h" />
+    <ClInclude Include="CGCamera.h" />
     <ClInclude Include="CGContext.h" />
     <ClInclude Include="CGFrameBuffer.h" />
-    <ClInclude Include="CGImageFile.h" />
     <ClInclude Include="CGLightSource.h" />
     <ClInclude Include="CGMath.h" />
     <ClInclude Include="CGMatrix.h" />
+    <ClInclude Include="CGPlayer.h" />
+    <ClInclude Include="CGPlayGround.h" />
     <ClInclude Include="CGPrimClipper.h" />
     <ClInclude Include="CGProgramInterface.h" />
+    <ClInclude Include="CGPuk.h" />
     <ClInclude Include="CGQuadric.h" />
     <ClInclude Include="CGTexture.h" />
-    <ClInclude Include="TestDataSet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CG1Application.cpp" />
     <ClCompile Include="CG1Helper.cpp" />
+    <ClCompile Include="CGCamera.cpp" />
     <ClCompile Include="CGContext.cpp" />
     <ClCompile Include="CGContext_FragmentOperations.cpp" />
     <ClCompile Include="CGContext_PrimitiveOperations.cpp" />
     <ClCompile Include="CGContext_VertexOperations.cpp" />
     <ClCompile Include="CGFrameBuffer.cpp" />
-    <ClCompile Include="CGImageFile.cpp" />
     <ClCompile Include="CGLightSource.cpp" />
     <ClCompile Include="CGMatrix.cpp" />
+    <ClCompile Include="CGPlayer.cpp" />
+    <ClCompile Include="CGPlayGround.cpp" />
     <ClCompile Include="CGPrimClipper.cpp" />
+    <ClCompile Include="CGPuk.cpp" />
     <ClCompile Include="CGQuadric.cpp" />
     <ClCompile Include="CGTexture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CG1Application.aps" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

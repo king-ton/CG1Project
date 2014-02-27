@@ -36,11 +36,6 @@ void CGContext::m_cgPullVertex(int vertexIndex)
 		v.attributes[CG_COLOR_ATTRIBUTE].set(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
-	if (m_capabilities.useMaterialColor) {
-		m_uniforms.materialAmbient = v.attributes[CG_COLOR_ATTRIBUTE];
-		m_uniforms.materialDiffuse = v.attributes[CG_COLOR_ATTRIBUTE];
-	}
-
 	if(m_pVertexAttributePointer[CG_TEXCOORD_ATTRIBUTE]) {
 		const float *tex=m_pVertexAttributePointer[CG_TEXCOORD_ATTRIBUTE]+2*vertexIndex;
 		v.attributes[CG_TEXCOORD_ATTRIBUTE].set(tex[0], tex[1], 0.0f, 1.0f);
@@ -168,6 +163,6 @@ void CGContext::m_cgVertexViewportTransform(int pipelineVertex)
 	CGVec4 &pos = v.varyings[CG_POSITION_VARYING];
 
 	// Transform from Normalized Device Coordinates To Window Space
-	pos[0] = ((pos[0] + 1) * m_viewport[2] / 2) + m_viewport[0];
-	pos[1] = ((pos[1] + 1) * m_viewport[3] / 2) + m_viewport[1];
+	pos[0] = (float)((pos[0] + 1.0F) * (m_viewport[2] / 2) + m_viewport[0]);
+	pos[1] = (float)((pos[1] + 1.0F) * (m_viewport[3] / 2) + m_viewport[1]);
 }

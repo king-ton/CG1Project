@@ -1,7 +1,11 @@
 #ifndef CG_QUADRIC_H
 #define CG_QUADRIC_H
 
+#include <GL/glut.h>
+
 #include "CG.h"
+#include "CGContext.h"
+
 //---------------------------------------------------------------------------
 // CGQuadric-Class
 // creates and holds polygonal (triangulated) discretizations
@@ -44,6 +48,8 @@ public:
 	/// Create a cone object.
 	void createCone(int slices, int stacks);
 	void createCone(float maxHeight, int slices, int stacks);
+
+	static void renderQuadric(CGQuadric &quadric, CGContext *context, CGMatrix4x4 modelView, float* color);
 
 private:
 	/// Internal method to add single triangle.

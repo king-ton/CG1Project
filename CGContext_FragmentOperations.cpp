@@ -33,11 +33,13 @@ void CGContext::m_cgFragmentPipeline(CGFragmentData& fragment)
 
 	m_cgFragmentProgram(fragment);
 
-	if(m_capabilities.depthTest && !m_cgFragmentZTest(fragment))
-		return;
+	if(m_capabilities.depthTest)
+		if (!m_cgFragmentZTest(fragment))
+			return;
 
-	if(m_capabilities.blend && !m_cgFragmentBlending(fragment)) 
-		return;
+	if(m_capabilities.blend)
+		if (!m_cgFragmentBlending(fragment)) 
+			return;
 
 	m_cgFragmentWriteBuffer(fragment);
 }
@@ -57,8 +59,8 @@ bool CGContext::m_cgFragmentClipping(CGFragmentData& fragment)
 		fragment.coordinates[Y] >= m_viewport[1] + m_viewport[3] ||
 		fragment.coordinates[X] < m_viewport[0] ||
 		fragment.coordinates[Y] < m_viewport[1] ||
-		fragment.varyings[CG_POSITION_VARYING][Z] < -1 ||
-		fragment.varyings[CG_POSITION_VARYING][Z] > 1)
+		fragment.varyings[CG_POSITION_VARYING][Z] < -1.0F ||
+		fragment.varyings[CG_POSITION_VARYING][Z] > 1.0F)
 		return false;
 	return true;
 }
@@ -73,7 +75,7 @@ bool CGContext::m_cgFragmentClipping(CGFragmentData& fragment)
 //							   |  jetzt möglich
 //---------------------------------------------------------------------------
 void CGContext::m_cgFragmentProgram(CGFragmentData& fragment)
-{
+{	
 	const CGFragmentData& in = fragment;
 	const CGUniformData& uniforms = m_uniforms;
 
@@ -157,7 +159,7 @@ void CGContext::m_cgFragmentProgram(CGFragmentData& fragment)
 	// Explicitly set alpha of the color
 	clr[A] = uniforms.materialDiffuse[A];
 	// clamp color values to range [0,1]
-	clr = CGMath::clamp(clr, 0, 1);
+	clr = CGMath::clamp(clr, 0, 1.0F);
 	fragment.varyings[CG_COLOR_VARYING] = clr;
 }
 
@@ -170,10 +172,8 @@ void CGContext::m_cgFragmentProgram(CGFragmentData& fragment)
 bool CGContext::m_cgFragmentZTest(CGFragmentData& fragment)
 {
 	static const float depthTolerance = 1e-6f;
-	if (m_frameBuffer.depthBuffer.get(fragment.coordinates[X], fragment.coordinates[Y]) + depthTolerance > fragment.varyings[CG_POSITION_VARYING][Z])
-		return true;
-	else
-		return false;
+	
+	return m_frameBuffer.depthBuffer.get(fragment.coordinates[X], fragment.coordinates[Y]) >= fragment.varyings[CG_POSITION_VARYING][Z] - depthTolerance;
 }
 
 //---------------------------------------------------------------------------
@@ -203,9 +203,8 @@ void CGContext::m_cgFragmentWriteBuffer(CGFragmentData& fragment)
 								  fragment.varyings[CG_COLOR_VARYING].elements);
 
 	// Schreibe Tiefe in Tiefen-Buffer
-	if (m_cgFragmentZTest(fragment))
-		m_frameBuffer.depthBuffer.set(	fragment.coordinates[X],
-										fragment.coordinates[Y],
-										fragment.varyings[CG_POSITION_VARYING][Z]);
+	m_frameBuffer.depthBuffer.set(	fragment.coordinates[X],
+									fragment.coordinates[Y],
+									fragment.varyings[CG_POSITION_VARYING][Z]);
 }
 //---------------------------------------------------------------------------

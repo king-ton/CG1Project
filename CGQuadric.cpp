@@ -426,3 +426,21 @@ void CGQuadric::createCone(float maxHeight, int slices, int stacks)
 		}
 	}
 }
+
+void CGQuadric::renderQuadric(CGQuadric &quadric, CGContext* context, CGMatrix4x4 modelviewT, float* color) {
+	float mv[16];
+	modelviewT.getFloatsToColMajor(mv);
+
+	context->cgUniformMatrix4fv(CG_ULOC_MODELVIEW_MATRIX, 1, false, mv);
+	context->cgUniformMatrix4fv(CG_ULOC_NORMAL_MATRIX, 1, false, mv);
+	context->cgUniform4fv(CG_ULOC_MATERIAL_DIFFUSE, 1, color);
+	context->cgVertexAttribPointer(CG_POSITION_ATTRIBUTE, quadric.getPositionArray());
+	context->cgVertexAttribPointer(CG_NORMAL_ATTRIBUTE, quadric.getNormalArray());
+	context->cgVertexAttribPointer(CG_COLOR_ATTRIBUTE, quadric.getColorArray());
+	context->cgVertexAttribPointer(CG_TEXCOORD_ATTRIBUTE, quadric.getTexCoordArray());
+	context->cgDrawArrays(GL_TRIANGLES, 0, quadric.getVertexCount());
+	context->cgVertexAttribPointer(CG_POSITION_ATTRIBUTE, NULL);
+	context->cgVertexAttribPointer(CG_NORMAL_ATTRIBUTE, NULL);
+	context->cgVertexAttribPointer(CG_COLOR_ATTRIBUTE, NULL);
+	context->cgVertexAttribPointer(CG_TEXCOORD_ATTRIBUTE, NULL);
+}
